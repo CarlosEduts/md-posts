@@ -1,0 +1,5 @@
+# Ignorando base de dados local
+*.sqlite
+
+# Ignorando pacotes composer
+vendor/
