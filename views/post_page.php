@@ -1,6 +1,6 @@
 <?php
 // Página de visualização do post selecionado
-include '../includes/config.php';
+require_once __DIR__ . '/../includes/config.php';
 
 $request = $_SERVER['REQUEST_URI'];
 $request = parse_url($request, PHP_URL_PATH);
@@ -12,7 +12,7 @@ if (preg_match('/^\/post\/(\d+)$/', $request, $matches)) {
 }
 
 if (empty($postID)) {
-die('ID não encontrado');
+    die('ID não encontrado');
 }
 
 $pdo = getDBConnection();
@@ -46,11 +46,11 @@ $post = $stmt->fetch();
 
     <div class="p-4 sm:ml-64">
         <div class="w-full max-w-2xl p-3 flex flex-col gap-4 m-auto">
-        <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white"><?= $post['title'] ?></h1>
+            <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white"><?= $post['title'] ?></h1>
             <div>
-                <img src="<?= $post['image_url'] ?>" alt="" class="w-full h-80 rounded-md">
+                <img src="<?= $post['image_url'] != "" ? $post['image_url'] : 'https://images.unsplash.com/photo-1588421357574-87938a86fa28?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' ?>" alt="" class="w-full h-80 rounded-md">
             </div>
-            <p class="mb-3 text-gray-500 dark:text-gray-400"><?= $post['content'] ?></</p>
+            <p class="mb-3 text-gray-500 dark:text-gray-400"><?= $post['content'] ?></< /p>
         </div>
     </div>
 </body>

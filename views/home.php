@@ -1,7 +1,7 @@
 <?php
 // Página inicial
 
-include '../includes/config.php';
+require_once __DIR__ . '/../includes/config.php';
 
 $pdo = getDBConnection();
 $stmt = $pdo->query('SELECT * FROM posts');
@@ -38,7 +38,7 @@ $stmt = $pdo->query('SELECT * FROM posts');
                     'post_card.twig.html',
                     [
                         'title' => $post['title'],
-                        'image_url' => $post['image_url'],
+                        'image_url' => $post['image_url'] != "" ? $post['image_url'] : 'https://images.unsplash.com/photo-1588421357574-87938a86fa28?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
                         'creation_date' => $post['creation_date'],
                         'id' => $post['id']
                     ]

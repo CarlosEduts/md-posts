@@ -1,11 +1,11 @@
 <?php
 
 // Página de criação de posts
-include '../includes/config.php';
+require_once __DIR__ . '/../includes/config.php';
 
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $title = $_POST['title'];
-    $image_url = $_POST['image-url'] ?? "https://images.unsplash.com/photo-1623221638187-91bd42da2de6?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+    $image_url = $_POST['image-url'];
     $content = $_POST['content'];
 
     try {
