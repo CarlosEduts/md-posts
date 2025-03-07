@@ -109,14 +109,39 @@
           </a>
         </li>
         <li>
-          <a
-            href="#"
-            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-          >
-            <i
-              class="ti ti-user-circle text-2xl text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-            ></i>
-            <span class="ms-3">Conta</span>
+
+          <!-- Verifica se o usuário esta logado e impede ele de acessar a rota login -->
+          {% if user == "Conta" %}
+            <a
+              href="/login"
+              class="flex items-center justify-between p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+            >
+          {% else %}
+            <a
+              href="/"
+              class="flex items-center justify-between p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+            >
+          {% endif %}
+
+            <div class="flex items-center justify-center">
+              <i
+                class="ti ti-user-circle text-2xl text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+              ></i>
+              <span class="ms-3">{{user}}</span>
+            </div>
+
+            <!-- Verifica se o usuário esta logado para mostrar o botão de Sair -->
+            {% if user != "Conta" %}
+            <button
+              class="flex items-center justify-center gap-0.5 text-sm text-red-500 hover:bg-red-500 hover:text-white rounded-sm px-2 py-1"
+              onclick="document.cookie.split(';').forEach(cookie => {
+                          const [name] = cookie.split('=');
+                          document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/`;
+                        });"
+            >
+              <i class="ti ti-logout"></i> Sair
+            </button>
+            {% endif %}
           </a>
         </li>
       </ul>

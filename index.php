@@ -6,7 +6,6 @@ require_once 'vendor/autoload.php';
 $loader = new \Twig\Loader\FilesystemLoader('views/components');
 $twig = new \Twig\Environment($loader, ['cache' => false]);
 
-
 // incluindo arquivos de conexão e configuração
 include './database/create.php';
 include './includes/config.php';
@@ -22,7 +21,8 @@ $route = match (true) {
     // Rotas estáticas
     $request === '/' => 'views/home.php',
     $request === '/create-post' => 'views/create_post.php',
-    $request === "/login" => 'views/user_login.php',
+    $request === '/login' => 'views/user_login.php',
+    $request === '/register' => 'views/user_register.php',
 
     // Rota padrão
     default => 'views/home.php'

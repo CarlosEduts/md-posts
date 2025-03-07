@@ -42,7 +42,7 @@ $post = $stmt->fetch();
 </head>
 
 <body class="light bg-gray-50 dark:bg-gray-700">
-    <?= $twig->render('side_bar.twig.html') ?>
+    <?= $twig->render('side_bar.twig.html', ['user' => !empty($_SESSION['user_name']) ? $_SESSION['user_name'] :  "Conta"]) ?>
 
     <div class="p-4 sm:ml-64">
         <div class="w-full max-w-2xl p-3 flex flex-col gap-4 m-auto">

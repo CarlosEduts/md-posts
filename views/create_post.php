@@ -3,19 +3,25 @@
 // Página de criação de posts
 require_once __DIR__ . '/../includes/config.php';
 
+session_start();
+
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $title = $_POST['title'];
     $image_url = $_POST['image-url'];
     $content = $_POST['content'];
 
-    try {
-        $pdo = getDBConnection();
-        $stmt = $pdo->prepare("INSERT INTO posts (title, image_url, content) VALUES (?, ?, ?)");
-        $stmt->execute([$title, $image_url, $content]);
+    if (isset($_SESSION['user_id'])) {
+        try {
+            $pdo = getDBConnection();
+            $stmt = $pdo->prepare("INSERT INTO posts (title, image_url, content, user_id) VALUES (?, ?, ?, ?)");
+            $stmt->execute([$title, $image_url, $content, $_SESSION['user_id']]);
 
-        echo $twig->render('alert.twig.html', ['type' => 'success', 'content' => 'Post criado com sucesso!']);
-    } catch (PDOException $e) {
-        echo $twig->render('alert.twig.html', ['type' => 'error', 'content' => 'Erro ao criar post: ' . $e->getMessage()]);
+            echo $twig->render('alert.twig.html', ['type' => 'success', 'content' => 'Post criado com sucesso!']);
+        } catch (PDOException $e) {
+            echo $twig->render('alert.twig.html', ['type' => 'error', 'content' => 'Erro ao criar post: ' . $e->getMessage()]);
+        }
+    } else {
+        echo $twig->render('alert.twig.html', ['type' => 'error', 'content' => 'Você precisa fazer login para criar posts.']);
     }
 }
 
@@ -41,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 </head>
 
 <body class="light bg-gray-50 dark:bg-gray-700">
-    <?= $twig->render('side_bar.twig.html') ?>
+    <?= $twig->render('side_bar.twig.html', ['user' => !empty($_SESSION['user_name']) ? $_SESSION['user_name'] :  "Conta"]) ?>
 
     <div class="p-4 sm:ml-64">
         <div class="w-full max-w-2xl p-3 flex flex-col gap-4 m-auto">
