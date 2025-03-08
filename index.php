@@ -23,6 +23,8 @@ $route = match (true) {
     $request === '/create-post' => 'views/create_post.php',
     $request === '/login' => 'views/user_login.php',
     $request === '/register' => 'views/user_register.php',
+    $request === '/recent' => 'views/recent_page.php',
+    $request === '/relevent' => '',
 
     // Rota padrão
     default => 'views/home.php'
