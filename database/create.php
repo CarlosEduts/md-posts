@@ -1,9 +1,9 @@
 <?php
 // Configurações para conexão com o MySQL
-$host     = 'localhost';
-$dbname   = 'posts';  // Substitua pelo nome do seu banco de dados
-$username = 'root';        // Seu usuário do MySQL (ex.: root)
-$password = '';          // Sua senha do MySQL
+$host = getenv('DB_HOST') ?: 'localhost';
+$dbname   = getenv('DB_NAME') ?: 'posts';
+$username = getenv('DB_USER') ?: 'root';
+$password = getenv('DB_PASS') ?: '';
 
 try {
     // Conectando ao MySQL via PDO

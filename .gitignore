@@ -3,3 +3,6 @@
 
 # Ignorando pacotes composer
 vendor/
+
+# Ignorando variáveis ambiente
+.env
