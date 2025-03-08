@@ -1,5 +1,7 @@
 {
     "require": {
-        "twig/twig": "^3.20"
+        "twig/twig": "^3.20",
+        "erusev/parsedown": "^1.7",
+        "ezyang/htmlpurifier": "^4.18"
     }
 }
