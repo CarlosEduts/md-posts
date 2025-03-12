@@ -23,6 +23,11 @@ $stmt = $pdo->prepare('SELECT * FROM posts WHERE id = ?');
 $stmt->execute([$post_id]);
 $post = $stmt->fetch();
 
+// Receber contagem de likes do post
+$stmt = $pdo->prepare("SELECT COUNT(*) as total FROM likes WHERE post_id = :post_id");
+$stmt->execute(['post_id' => $post_id]);
+$likes = $stmt->fetch()['total'] ?? 0;
+
 $parsedown = new Parsedown();
 $md_content = $parsedown->text($post['content']);
 
@@ -91,18 +96,38 @@ if (isset($_SESSION['user_id'])) {
 
                 <p class="w-fit px-2 rounded-md mb-0 text-gray-900 dark:text-white bg-white/10"><?= $post['creation_date'] ?></p>
 
-                <!-- Formuário para curtida do psot -->
+                <!-- Formuário para curtida do post -->
                 <form method="POST">
                     <input type="hidden" name="like" value="like">
-                    <button type="submit">
+                    <button type="submit" class="text-gray-900 dark:text-white flex items-center justify-center gap-1">
                         <?php
-
-                        if ($liked) echo '<i class="ti ti-heart-filled text-xl text-red-500"></i>';
-                        else echo '<i class="ti ti-heart text-xl text-gray-900 dark:text-white"></i>'
-
+                        if ($liked) echo '<i class="ti ti-heart-filled text-xl text-red-500"></i>' . $likes;
+                        else echo '<i class="ti ti-heart text-xl "></i>' . $likes;
                         ?>
                     </button>
                 </form>
+
+                <button class="text-gray-900 dark:text-white flex text-xl items-center justify-center gap-1" id="shareButton"><i class="ti ti-share"></i></button>
+
+                <script>
+                    const shareData = {
+                        title: window.location.href,
+                        text: window.location.href,
+                        url: window.location.href, // ou qualquer URL que desejar
+                    };
+
+                    function share() {
+                        if (navigator.share) {
+                            navigator.share(shareData)
+                                .then(() => console.log("Compartilhado com sucesso"))
+                                .catch((error) => console.error("Erro ao compartilhar:", error));
+                        } else {
+                            alert("Compartilhamento não suportado neste navegador.");
+                        }
+                    }
+
+                    document.getElementById("shareButton").addEventListener("click", share);
+                </script>
 
             </div>
             <div>
