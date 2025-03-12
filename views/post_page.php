@@ -8,18 +8,19 @@ $request = $_SERVER['REQUEST_URI'];
 $request = parse_url($request, PHP_URL_PATH);
 
 // Capturar ID do post na URL
-$postID = '';
+$post_id = '';
 if (preg_match('/^\/post\/(\d+)$/', $request, $matches)) {
-    $postID = (int) $matches[1];
+    $post_id = (int) $matches[1];
 }
 
-if (empty($postID)) {
+if (empty($post_id)) {
     die('ID não encontrado');
 }
 
+// Peceber o post
 $pdo = getDBConnection();
 $stmt = $pdo->prepare('SELECT * FROM posts WHERE id = ?');
-$stmt->execute([$postID]);
+$stmt->execute([$post_id]);
 $post = $stmt->fetch();
 
 $parsedown = new Parsedown();
@@ -29,6 +30,34 @@ $config = HTMLPurifier_Config::createDefault();
 $purifier = new HTMLPurifier($config);
 
 $html_content = $purifier->purify($md_content);
+
+// Dar like no post
+$liked = false;
+if (isset($_SESSION['user_id'])) {
+    $user_id = $_SESSION['user_id'];
+
+    // Verificar a curtida do usuário em relação ao post
+    $stmt = $pdo->prepare("SELECT * FROM likes WHERE user_id = :user_id AND post_id = :post_id");
+    $stmt->execute(['user_id' => $user_id, 'post_id' => $post_id]);
+    $liked = $stmt->fetch();
+
+    // Verificar se o usuário clicou no batão de curtir
+    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['like'])) {
+
+        // Verifica se o usuário já curtiu o post
+        if ($liked) {
+            // Se já curtiu, remove o like (descurtir)
+            $stmt = $pdo->prepare("DELETE FROM likes WHERE user_id = :user_id AND post_id = :post_id");
+            $stmt->execute(['user_id' => $user_id, 'post_id' => $post_id]);
+            $liked = false;
+        } else {
+            // Se não curtiu, adiciona um like
+            $stmt = $pdo->prepare("INSERT INTO likes (user_id, post_id) VALUES (:user_id, :post_id)");
+            $stmt->execute(['user_id' => $user_id, 'post_id' => $post_id]);
+            $liked = true;
+        }
+    }
+}
 
 ?>
 
@@ -55,10 +84,26 @@ $html_content = $purifier->purify($md_content);
     <?= $twig->render('side_bar.twig.html', ['user' => !empty($_SESSION['user_name']) ? $_SESSION['user_name'] :  "Conta"]) ?>
 
     <div class="p-4 sm:ml-64">
-        <div class="w-full max-w-2xl p-3 flex flex-col gap-4 m-auto">
+
+        <div class="w-full max-w-2xl p-3 flex flex-col gap-4 m-auto relative">
             <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white"><?= $post['title'] ?></h1>
-            <div>
-                <p class=" w-fit px-2 rounded-md text-gray-900 dark:text-white bg-white/10"><?= $post['creation_date'] ?></p>
+            <div class="flex items-center gap-2">
+
+                <p class="w-fit px-2 rounded-md mb-0 text-gray-900 dark:text-white bg-white/10"><?= $post['creation_date'] ?></p>
+
+                <!-- Formuário para curtida do psot -->
+                <form method="POST">
+                    <input type="hidden" name="like" value="like">
+                    <button type="submit">
+                        <?php
+
+                        if ($liked) echo '<i class="ti ti-heart-filled text-xl text-red-500"></i>';
+                        else echo '<i class="ti ti-heart text-xl text-gray-900 dark:text-white"></i>'
+
+                        ?>
+                    </button>
+                </form>
+
             </div>
             <div>
                 <img src="<?= $post['image_url'] != "" ? $post['image_url'] : 'https://images.unsplash.com/photo-1588421357574-87938a86fa28?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' ?>" alt="" class="w-full h-80 rounded-md">

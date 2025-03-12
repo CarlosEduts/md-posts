@@ -30,6 +30,16 @@ try {
         FOREIGN KEY (user_id) REFERENCES users(id)
     )");
 
+    // Criando a tabela de likes
+    $pdo->exec("CREATE TABLE IF NOT EXISTS likes (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        user_id INT NOT NULL,
+        post_id INT NOT NULL,
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+        FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE,
+        UNIQUE(user_id, post_id) -- Garante que um usuário só pode curtir um post uma vez
+    )");
+
     echo $twig->render('alert.twig.html', ['type' => 'success', 'content' => 'Tabela criada com sucesso!']);
 } catch (PDOException $e) {
     echo "Erro ao criar tabela: " . $e->getMessage();
