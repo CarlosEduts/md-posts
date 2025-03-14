@@ -25,6 +25,8 @@ $route = match (true) {
     $request === '/register' => 'views/user_register.php',
     $request === '/recent' => 'views/recent_page.php',
     $request === '/relevent' => '',
+    $request === '/my-folder' => 'views/my_folder.php',
+    $request === '/my-folder-posts-liked' => 'views/my_folder_posts_liked.php',
 
     // Rota padrão
     default => 'views/home.php'

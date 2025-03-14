@@ -7,13 +7,13 @@
 - ✅ Suporte a posts em Markdown  
 - ✅ Cadastro e login de usuários  
 - ✅ Página de posts recentes  
+- ✅ Sistema de curtidas 
 
 ## Funcionalidades Pendentes
 
 - ❌ Edição de posts  
 - ❌ Exclusão de posts  
-- ❌ Página de posts relevantes  
-- ❌ Sistema de curtidas  
+- ❌ Página de posts relevantes   
 - ❌ Área "Minha Pasta"
 
 ## Como Executar o Projeto

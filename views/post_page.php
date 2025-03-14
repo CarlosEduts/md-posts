@@ -17,11 +17,16 @@ if (empty($post_id)) {
     die('ID não encontrado');
 }
 
-// Peceber o post
+// Receber o post
 $pdo = getDBConnection();
 $stmt = $pdo->prepare('SELECT * FROM posts WHERE id = ?');
 $stmt->execute([$post_id]);
 $post = $stmt->fetch();
+
+// Receber o nome do autor do post
+$author_data =  $pdo->prepare('SELECT * FROM users WHERE id = ?');
+$author_data->execute([$post['user_id']]);
+$author_name = $author_data->fetch();
 
 // Receber contagem de likes do post
 $stmt = $pdo->prepare("SELECT COUNT(*) as total FROM likes WHERE post_id = :post_id");
@@ -92,8 +97,9 @@ if (isset($_SESSION['user_id'])) {
 
         <div class="w-full max-w-2xl p-3 flex flex-col gap-4 m-auto relative">
             <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white"><?= $post['title'] ?></h1>
-            <div class="flex items-center gap-2">
+            <div class="flex items-center flex-wrap gap-2">
 
+                <p class="w-fit px-2 rounded-md mb-0 text-gray-900 dark:text-white bg-white/10"><?= $author_name['username'] ?></p>
                 <p class="w-fit px-2 rounded-md mb-0 text-gray-900 dark:text-white bg-white/10"><?= $post['creation_date'] ?></p>
 
                 <!-- Formuário para curtida do post -->
@@ -107,6 +113,7 @@ if (isset($_SESSION['user_id'])) {
                     </button>
                 </form>
 
+                <!-- Botão de compartilhar -->
                 <button class="text-gray-900 dark:text-white flex text-xl items-center justify-center gap-1" id="shareButton"><i class="ti ti-share"></i></button>
 
                 <script>
