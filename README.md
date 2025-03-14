@@ -55,15 +55,18 @@ Abra seu navegador e acesse [http://localhost:8080](http://localhost:8080).
 ## Imagens do Projeto
 
 ### Página Inicial
-<img src="./public/screenshot/posts.jpeg" alt="Página Inicial" style="width:600px;"/>
+<img src="./public/screenshot/home.jpeg" alt="Página Inicial" style="width:600px;"/>
 
 ### Visualização de Post
-<img src="./public/screenshot/post_view.png" alt="Visualização de Post" style="width:600px;"/>
+<img src="./public/screenshot/post_page.jpeg" alt="Visualização de Post" style="width:600px;"/>
+
+### Minha pasta
+<img src="./public/screenshot/my_folder.jpeg" alt="Visualização de Post" style="width:600px;"/>
 
 ### Página de Criação de Post
 <img src="./public/screenshot/create_post.jpeg" alt="Página de Criação de Post" style="width:600px;"/>
 
-### Editor de Post (Textarea)
+### Criação de Post (Textarea)
 <img src="./public/screenshot/create_post_textarea.jpeg" alt="Editor de Post" style="width:600px;"/>
 
 ### Página de Cadastro

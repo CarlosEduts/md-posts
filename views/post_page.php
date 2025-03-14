@@ -225,7 +225,7 @@ if (isset($_SESSION['user_id'])) {
                     /* Código */
                     code {
                         font-family: monospace;
-                        background-color: #f0f0f0;
+                        background-color: #f0f0f009;
                         padding: 2px 4px;
                         border-radius: 4px;
                     }
@@ -233,7 +233,7 @@ if (isset($_SESSION['user_id'])) {
                     pre code {
                         display: block;
                         padding: 10px;
-                        background-color: #f0f0f0;
+                        background-color: #f0f0f009;
                         border-radius: 4px;
                         overflow-x: auto;
                     }
