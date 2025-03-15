@@ -26,8 +26,10 @@
   class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
   aria-label="Sidebar"
 >
-  <div class="h-full flex flex-col justify-between px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
-    <ul class="space-y-2 font-medium ">
+  <div
+    class="h-full flex flex-col justify-between px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800"
+  >
+    <ul class="space-y-2 font-medium">
       <li>
         <a
           href="/"
@@ -114,20 +116,11 @@
         {% endif %}
 
         <li>
-
           <!-- Verifica se o usuário esta logado e impede ele de acessar a rota login -->
-          {% if user == "Conta" %}
-            <a
-              href="/login"
-              class="flex items-center justify-between p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-            >
-          {% else %}
-            <a
-              href="/"
-              class="flex items-center justify-between p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-            >
-          {% endif %}
-
+          <a
+            href="{% if user == 'Conta' %} /login {% else %} / {% endif %}"
+            class="flex items-center justify-between p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+          >
             <div class="flex items-center justify-center">
               <i
                 class="ti ti-user-circle text-2xl text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -135,10 +128,10 @@
               <span class="ms-3">{{user}}</span>
             </div>
 
-            <!-- Verifica se o usuário esta logado para mostrar o botão de Sair -->
+            <!-- Verifica se o usuário esta logado para mostrar o botão de Sair (Limpar Cookies) -->
             {% if user != "Conta" %}
             <button
-              class="flex items-center justify-center gap-0.5 text-sm text-red-500 hover:bg-red-500 hover:text-white rounded-sm px-2 py-1"
+              class="flex items-center justify-center gap-0.5 text-sm text-red-500 hover:bg-red-500 hover:text-white rounded px-2 py-1"
               onclick="document.cookie.split(';').forEach(cookie => {
                           const [name] = cookie.split('=');
                           document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/`;
@@ -151,6 +144,5 @@
         </li>
       </ul>
     </div>
-    
   </div>
 </aside>

@@ -4,10 +4,10 @@ function getDBConnection()
 {
     try {
         // Configurações para conexão com o MySQL
-        $host     = 'localhost';
-        $dbname   = 'posts'; // Substitua pelo nome do seu banco de dados
-        $username = 'root';          // Usuário do MySQL (por exemplo, root)
-        $password = '';              // Senha do MySQL
+        $host = getenv('DB_HOST') ?: 'localhost';
+        $dbname   = getenv('DB_NAME') ?: 'posts';
+        $username = getenv('DB_USER') ?: 'root';
+        $password = getenv('DB_PASS') ?: '';
 
         // Conectando ao MySQL via PDO
         $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
@@ -17,4 +17,3 @@ function getDBConnection()
         echo "Erro ao conectar ao banco de dados: " . $e->getMessage();
     }
 }
-?>

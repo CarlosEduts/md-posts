@@ -1,7 +1,7 @@
 <?php
 
+// Página de fazer login
 require_once __DIR__ . '/../includes/config.php';
-
 session_start();
 
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
@@ -19,7 +19,6 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
             $_SESSION['user_name'] = $user['username'];
 
             echo $twig->render('alert.twig.html', ['type' => 'success', 'content' => 'Logado com sucesso!']);
-
             // Redirecionar o usuário para a home
             header("Location: /");
             exit;
@@ -34,22 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
 <!DOCTYPE html>
 <html lang="pt">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Flowbite CSS e JS -->
-    <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
-
-    <!-- Tabler Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
-
-</head>
+<?= $twig->render('head.twig.html', ['title' => 'Fazer Login']) ?>
 
 <body class="light flex-col bg-gray-50 dark:bg-gray-700 w-full h-dvh flex items-center justify-center">
     <h1 class="text-gray-900 dark:text-white text-2xl mb-3">Entrar</h1>
@@ -66,7 +50,6 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
             <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Entrar</button>
             <p class="text-gray-900 dark:text-white text-sm opacity-80 mt-2">Não tem uma conta? <a href="/register" class="text-blue-500">Crie uma.</a></p>
         </form>
-
     </div>
 </body>
 

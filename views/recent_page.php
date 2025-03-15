@@ -1,39 +1,24 @@
 <?php
-// Página inicial
 
+// Posts Recentes
 require_once __DIR__ . '/../includes/config.php';
-
 session_start();
 
 $pdo = getDBConnection();
-$stmt = $pdo->query('SELECT * FROM posts
+$stmt = $pdo->query(
+    'SELECT * FROM posts
     WHERE DATE(creation_date) = (SELECT MAX(DATE(creation_date)) FROM posts)
-    ORDER BY creation_date DESC
-');
+    ORDER BY creation_date DESC'
+);
 
 ?>
 
 <!DOCTYPE html>
 <html lang="pt">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Flowbite CSS e JS -->
-    <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
-
-    <!-- Tabler Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
-
-</head>
+<?= $twig->render('head.twig.html', ['title' => 'Posts Recentes']) ?>
 
 <body class="light bg-gray-50 dark:bg-gray-700">
-    <?= $twig->render('side_bar.twig.html', ['user' => !empty($_SESSION['user_name']) ? $_SESSION['user_name'] :  "Conta" ]) ?>
+    <?= $twig->render('side_bar.twig.html', ['user' => !empty($_SESSION['user_name']) ? $_SESSION['user_name'] :  "Conta"]) ?>
 
     <div class="p-4 sm:ml-64">
         <div class="w-full max-w-2xl p-3 flex flex-col gap-4 m-auto">
